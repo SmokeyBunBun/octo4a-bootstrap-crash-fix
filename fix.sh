@@ -6,12 +6,22 @@ set -e
 sudo apt update
 
 # Install required dependencies via apt
-sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg python3-packaging
+sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg python3-packaging python3-venv python3-full
 
-# Try installing a related package via apt (adjust name if needed)
-sudo apt install -y python3-argon2 || echo "Warning: python3-argon2 not found via apt"
+# Create a virtual environment for octo4a-argon2-mock
+venv_path="$HOME/octo4a_venv"
+python3 -m venv "$venv_path"
 
-# Create necessary directories
+# Activate the virtual environment
+source "$venv_path/bin/activate"
+
+# Install the specific pip package within the virtual environment
+pip install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
+
+# Deactivate the virtual environment (important for later script steps)
+deactivate
+
+# Create necessary directories (outside the venv, as these are system-level)
 sudo mkdir -p /opt/octoprint/extensions/ttyd
 
 # Create manifest file
