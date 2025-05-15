@@ -15,17 +15,17 @@ sudo mkdir -p /opt/octoprint/extensions/ttyd
 cat << EOF > /opt/octoprint/extensions/ttyd/manifest.json
 {
         "title": "Remote web terminal (ttyd)",
-        "description": "Uses port 5002; User smokey / ssh password (found in ~/.octoCredentials)"
+        "description": "Uses port 5002; User $USER / ssh password (found in ~/.octoCredentials)"
 }
 EOF
 
 # Store the credential for your user
-echo "smokey" > /home/smokey/.octoCredentials
+echo "$USER" > /home/$USER/.octoCredentials
 
 # Create start script
 cat << EOF > /opt/octoprint/extensions/ttyd/start.sh
 #!/bin/bash
-ttyd -p 5002 --credential smokey:\$(cat /home/smokey/.octoCredentials) bash
+ttyd -p 5002 --credential $USER:\$(cat /home/$USER/.octoCredentials) bash
 EOF
 
 # Create kill script
@@ -47,10 +47,10 @@ python3 -m pip install -U packaging --ignore-installed
 python3 -m pip install https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
 
 # Create the argon fix file in your home directory
-touch /home/smokey/.argon-fix
+touch /home/$USER/.argon-fix
 
 echo "TTYD extension files created in /opt/octoprint/extensions/ttyd/"
 echo "Start script: /opt/octoprint/extensions/ttyd/start.sh"
 echo "Kill script: /opt/octoprint/extensions/ttyd/kill.sh"
-echo "Credentials stored in /home/smokey/.octoCredentials (user: smokey)"
+echo "Credentials stored in /home/$USER/.octoCredentials (user: $USER)"
 echo "You may need to configure OctoPrint to recognize this extension."
