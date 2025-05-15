@@ -15,8 +15,8 @@ python3 -m venv "$venv_path"
 # Activate the virtual environment
 source "$venv_path/bin/activate"
 
-# Install the specific pip package within the virtual environment
-pip install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
+# Install the specific pip package within the virtual environment using the full path to pip
+"$venv_path/bin/pip" install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
 
 # Deactivate the virtual environment (important for later script steps)
 deactivate
