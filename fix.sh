@@ -6,19 +6,9 @@ set -e
 sudo apt update
 
 # Install required dependencies via apt
-sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg python3-packaging python3-venv python3-full
+sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg python3-packaging python3-venv python3-full python3-argon2
 
-# Create a virtual environment for octo4a-argon2-mock
-venv_path="$HOME/octo4a_venv"
-python3 -m venv "$venv_path"
-
-# Activate and run pip within the virtual environment in a subshell
-(
-  source "$venv_path/bin/activate"
-  "$venv_path/bin/pip" install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
-)
-
-# Create necessary directories (outside the venv, as these are system-level)
+# Create necessary directories
 sudo mkdir -p /opt/octoprint/extensions/ttyd
 
 # Create manifest file
@@ -51,6 +41,12 @@ chmod +x /opt/octoprint/extensions/ttyd/kill.sh
 # Adjust permissions
 chmod 755 /opt/octoprint/extensions/ttyd/start.sh
 chmod 755 /opt/octoprint/extensions/ttyd/kill.sh
+
+# Comment out the problematic pip install line
+# venv_path="$HOME/octo4a_venv"
+# source "$venv_path/bin/activate"
+# "$venv_path/bin/pip" install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
+# deactivate
 
 # Create the argon fix file in your home directory
 touch /home/$USER/.argon-fix
