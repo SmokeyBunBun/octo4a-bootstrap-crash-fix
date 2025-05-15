@@ -12,14 +12,11 @@ sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf pyth
 venv_path="$HOME/octo4a_venv"
 python3 -m venv "$venv_path"
 
-# Activate the virtual environment
-source "$venv_path/bin/activate"
-
-# Install the specific pip package within the virtual environment using the full path to pip
-"$venv_path/bin/pip" install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
-
-# Deactivate the virtual environment (important for later script steps)
-deactivate
+# Activate and run pip within the virtual environment in a subshell
+(
+  source "$venv_path/bin/activate"
+  "$venv_path/bin/pip" install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
+)
 
 # Create necessary directories (outside the venv, as these are system-level)
 sudo mkdir -p /opt/octoprint/extensions/ttyd
