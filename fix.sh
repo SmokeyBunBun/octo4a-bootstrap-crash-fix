@@ -8,6 +8,9 @@ sudo apt update
 # Install required dependencies via apt
 sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg python3-packaging
 
+# Try installing a related package via apt (adjust name if needed)
+sudo apt install -y python3-argon2 || echo "Warning: python3-argon2 not found via apt"
+
 # Create necessary directories
 sudo mkdir -p /opt/octoprint/extensions/ttyd
 
@@ -41,9 +44,6 @@ chmod +x /opt/octoprint/extensions/ttyd/kill.sh
 # Adjust permissions
 chmod 755 /opt/octoprint/extensions/ttyd/start.sh
 chmod 755 /opt/octoprint/extensions/ttyd/kill.sh
-
-# Install pip packages (only for octo4a-argon2-mock)
-python3 -m pip install --no-warn-script-location --ignore-installed https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
 
 # Create the argon fix file in your home directory
 touch /home/$USER/.argon-fix
