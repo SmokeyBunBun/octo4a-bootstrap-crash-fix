@@ -9,7 +9,7 @@ sudo apt update
 sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg
 
 # Create necessary directories
-mkdir -p /opt/octoprint/extensions/ttyd
+sudo mkdir -p /opt/octoprint/extensions/ttyd
 
 # Create manifest file
 cat << EOF > /opt/octoprint/extensions/ttyd/manifest.json
