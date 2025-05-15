@@ -15,7 +15,7 @@ sudo mkdir -p /opt/octoprint/extensions/ttyd
 cat << EOF > /opt/octoprint/extensions/ttyd/manifest.json
 {
     "title": "Remote web terminal (ttyd)",
-    "description": "Uses port 5002; User $USER / ssh password (found in ~/.octoCredentials)"
+    "description": "Uses port 8022; User $USER / ssh password (found in ~/.octoCredentials)"
 }
 EOF
 
@@ -25,7 +25,7 @@ echo "$USER" > /home/$USER/.octoCredentials
 # Create start script
 cat << EOF > /opt/octoprint/extensions/ttyd/start.sh
 #!/bin/bash
-ttyd -p 5002 --credential $USER:\$(cat /home/$USER/.octoCredentials) bash
+ttyd -p 8022 --credential $USER:\$(cat /home/$USER/.octoCredentials) bash
 EOF
 
 # Create kill script
@@ -41,12 +41,6 @@ chmod +x /opt/octoprint/extensions/ttyd/kill.sh
 # Adjust permissions
 chmod 755 /opt/octoprint/extensions/ttyd/start.sh
 chmod 755 /opt/octoprint/extensions/ttyd/kill.sh
-
-# Comment out the problematic pip install line
-# venv_path="$HOME/octo4a_venv"
-# source "$venv_path/bin/activate"
-# "$venv_path/bin/pip" install --no-warn-script-location https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
-# deactivate
 
 # Create the argon fix file in your home directory
 touch /home/$USER/.argon-fix
