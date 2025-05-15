@@ -5,8 +5,11 @@ set -e
 # Update package lists
 sudo apt update
 
-# Install required dependencies
+# Install required dependencies via apt
 sudo apt install -y python3-pip python3-yaml python3-regex python3-zeroconf python3-netifaces python3-cffi python3-psutil unzip python3-pil ttyd ffmpeg
+
+# Try installing 'packaging' with apt
+sudo apt install -y python3-packaging || echo "Warning: python3-packaging not found via apt, may be installed via pip"
 
 # Create necessary directories
 sudo mkdir -p /opt/octoprint/extensions/ttyd
@@ -14,8 +17,8 @@ sudo mkdir -p /opt/octoprint/extensions/ttyd
 # Create manifest file
 cat << EOF > /opt/octoprint/extensions/ttyd/manifest.json
 {
-        "title": "Remote web terminal (ttyd)",
-        "description": "Uses port 5002; User $USER / ssh password (found in ~/.octoCredentials)"
+    "title": "Remote web terminal (ttyd)",
+    "description": "Uses port 5002; User $USER / ssh password (found in ~/.octoCredentials)"
 }
 EOF
 
@@ -42,9 +45,9 @@ chmod +x /opt/octoprint/extensions/ttyd/kill.sh
 chmod 755 /opt/octoprint/extensions/ttyd/start.sh
 chmod 755 /opt/octoprint/extensions/ttyd/kill.sh
 
-# Install pip packages
-python3 -m pip install -U packaging --ignore-installed
-python3 -m pip install https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
+# Install pip packages (for those not available via apt)
+python3 -m pip install -U --ignore-installed packaging  # Keep this for now, might be needed if apt fails
+python3 -m pip install --ignore-installed https://github.com/feelfreelinux/octo4a-argon2-mock/archive/main.zip
 
 # Create the argon fix file in your home directory
 touch /home/$USER/.argon-fix
